@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Setembro Amarelo</title>
+    <link rel="icon" type="image/x-icon" href="./img/logo-lacoamarelo.png">
+
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+    <!-- Header with space for an image -->
+    <header>
+        <div class="header-content">
+            <img src="./img/logo-senai.png" alt="Logo" class="logo">
+            <img src="./img/logo-lacoamarelo.png" alt="Logo" class="logo-lacoamarelo">
+        </div>
+    </header>
+
+    <!-- Divisória Branca -->
+
+    <div class="counter-container">
+        <div class="text-title-counter">
+            <p>SEGUNDO DADOS DA OMS:</p>
+        </div>
+
+        <div class="counter-section">
+            <div id="counter">0</div>
+        </div>
+
+        <div class="text-subtitle-counter">
+            <p>pessoas morrem por <b>ANO</b> devido ao suicídio</p>
+        </div>
+    </div>
+
+
+    <div class="yellow-line">
+        <p>DIGA <B>NÃO</B> AO PRECONCEITO E ÁS DIFICULDADES DE ACESSO A TRATAMENTOS ADEQUADOS.</p>
+    </div>
+
+    <!-- Divisória Preta -->
+    <div class="black-section">
+
+        <div class="black-section-title">
+            <p>O Brasil tem a quarta PIOR taxa de saúde mental do planeta.</p>
+        </div>
+        <br>
+        <p>Uma pesquisa realizada pela plataforma Neurotech Sapien Labs mostrou que o Brasil tem a quarta pior taxa de
+            saúde mental do planeta. O país recebeu a nota 53, de um total de 110, ficando na frente apenas da África do
+            Sul (50), Reino Unido (49) e Uzbequistão (48).</p>
+        <br>
+        <p>O ranking The Mental State of the World mapeia a qualidade da saúde mental ao redor do globo, e ao todo são
+            71 países analisados pela pesquisa. Segundo o levantamento, os brasileiros estão entre os que mais relatam
+            sentir estresse e dificuldades com a parte mental de sua saúde. Ao todo, 34% das pessoas no país relatam
+            esses sintomas.</p>
+        <br>
+        <p class="text-text-container">“Estamos falando do estado interior geral do indivíduo e de sua forma de
+            relacionar e conectar a vida pessoal com a vida social. Ou seja, refere-se à maneira como o emocional está
+            impactando a vida cotidiana do ser humano”, completa a especialista Andrea Ladislau.</p>
+
+        <main>
+            <section class="chart-container">
+                <canvas id="suicideChart"></canvas>
+            </section>
+        </main>
+        <footer class="footer-table">
+            <p>&copy; 2024 Dados sobre saúde mental</p>
+            <br>
+        </footer>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', () => { // O que estiver dentro da função só irá carregar depois que a página estiver carregada.
+
+                const ctx = document.getElementById('suicideChart').getContext('2d');
+
+                const suicideChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Homens', 'Mulheres'], // Títulos inferiores do gráfico.
+                        datasets: [{ // Conjunto de dados tabulados.
+                            label: 'Taxa de Suicídio (1 : 100.000)', // Percentagem lateral na vertical.
+                            data: [12.6, 5.4],
+                            backgroundColor: [
+                                'rgba(203, 155, 222, 0.2)', // Cor inferior da coluna 'homens'.
+                                'rgba(255, 223, 128, 0.2)' // Cor inferior da coluna 'mulheres'.
+                            ],
+                            borderColor: [ // Cor da borda.
+                                'rgba(203, 155, 222)', // 'homens'.
+                                'rgba(255, 223, 128)' // 'mulheres'.
+                            ],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: { //começa eixo y
+                                beginAtZero: true,
+                                title: {
+                                    display: true,
+                                    text: 'Taxa de Suicídio', color: 'white',
+                                    color: 'white', // Cor do título do eixo y.
+                                    font: {
+                                        size: 10 // tamanho da fonte
+                                    }
+                                },
+                                ticks: {
+                                    color: 'white' // cor dos valores do eixo y.
+                                },
+                                grid: { // adiciona configuração para as linhas de grade
+                                    color: 'rgba(255, 255, 255, 0.5)', // cor das linhas de grade 
+                                    borderColor: 'rgba(255, 255, 255, 0.5)' // cor da borda do gráfico 
+                                }
+                            },
+                            x: {//começa eixo x
+                                ticks: {
+                                    color: 'white' // cor dos valores
+                                }
+                            }
+                        },
+                        plugins: { //é uma pequena caixa de texto que aparece ao passar o mouse
+                            tooltip: {
+                                callbacks: { //claback é uma funcao que tem dentro do tooltip que permite personalizar o conteúdo, o que está escrito.
+                                    label: function (context) {//formatação do texto
+                                        let label = context.dataset.label || '';//
+                                        if (label) {
+                                            label += ': ';
+                                        }
+                                        if (context.parsed.y !== null) {
+                                            label += context.parsed.y + '%';// se o valor do eixo y não for nula, ele acrescenta o valor no label seguido do símbolo de '%'
+                                        }
+                                        return label;
+                                    }
+                                },
+                                // Alterar cor do texto da tooltip
+                                backgroundColor: 'rgba(0, 0, 0, 0.7)', // cor de fundo da tooltip.
+                                titleColor: 'rgba(255, 255, 255)', // cor do título da tooltip.
+                                bodyColor: 'rgba(255, 255, 255)' // cor do corpo da tooltip.
+                            }
+                        },
+                        // cor do texto das legendas
+                        legend: {
+                            labels: {
+                                color: 'rgba(255, 255, 255)'
+                            }
+                        }
+                    }
+                });
+            });
+
+
+        </script>
+        <br>
+        <p>As taxas variam entre países, regiões e entre homens e mulheres.
+            No Brasil, 12,6% por cada 100 mil homens, em
+            comparação com 5,4% por cada 100 mil mulheres, morrem devido ao suicídio.</p>
+    </div>
+
+    <!-- Seção dos cards -->
+    <div class="card-section">
+        <div class="card">
+            <a class="a-help"
+                href="https://capital.sp.gov.br/web/hospital_do_servidor_publico_municipal/servicos/marcacao_de_consultas/#:~:text=S%C3%A3o%20Paulo%20(capital)%2C%20disque,feira%2C%20das%207h%20%C3%A0s%2019h"
+                target="_blank">
+                <img src="./img/sus.png" alt="Tratamento psicológico gratuito disponibilizado pelo SUS">
+                <h3>SUS</h3>
+                <p>Tratamento psicológico gratuito</p>
+            </a>
+        </div>
+        <div class="card">
+            <a class="a-help" href="https://cvv.org.br/" target="_blank">
+                <img src="./img/cvv.png" alt="Centro de Valorização à Vida">
+                <h3>CVV</h3>
+                <p>Centro de Valorização à Vida</p>
+            </a>
+        </div>
+        <div class="card">
+            <a class="a-help"
+                href="https://www.sorocaba.sp.gov.br/Carta-Servicos/Home/Servico/738f991e-f62d-ed11-81d9-005056bf74cb"
+                target="_blank">
+                <img src="./img/caps.png" alt="Centros de Atenção Psicossocial">
+                <h3>CAPS</h3>
+                <p>Centros de Atenção Psicossocial</p>
+            </a>
+        </div>
+    </div>
+
+    <!-- Seção roxa com um iframe -->
+    <div class="iframe-section">
+        <iframe width="400rem" height="300rem" src="https://www.youtube.com/embed/t78yCvN1y4s?si=8LHfRWPLUhJN_YVN"
+            title="YouTube video player" frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+    </div>
+
+    <!-- Seção display de filmes/séries -->
+
+    <div class="text-subtitle-container">
+        <p>
+            POR OUTROS OLHARES...
+
+            <!-- Botão de ajuda -->
+            <button id="info-button" class="info-button">
+                <img src="./img/help-logo.png" alt="Instruções">
+            </button>
+        </p>
+    </div>
+
+    <div class="movie-slider">
+        <div class="arrow left-arrow" id="left-arrow">&#9664;</div> <!-- Seta Esquerda -->
+
+        <div class="movie-container">
+            <div class="movie" id="movie1"><a href="https://www.imdb.com/title/tt0449059/" target="_blank"><img
+                        src="./img/Little_Miss_Sunshine.jpg" alt="Little Miss Sunshine"></a></div>
+            <div class="movie" id="movie2"><a href="https://www.imdb.com/title/tt1659337/" target="_blank"><img
+                        src="./img/2As-Vantagens-de-ser-Invisivel.jpg" alt="As Vantagens de Ser Invisível"></a></div>
+            <div class="movie" id="movie3"><a href="https://www.imdb.com/title/tt2475154/" target="_blank"><img
+                        src="./img/2Elena_Filme.jpg" alt="Elena"></a></div>
+            <div class="movie" id="movie4"><a href="https://www.imdb.com/title/tt22022452/" target="_blank"><img
+                        src="./img/2Divertida_Mente_2.png" alt="Divertida Mente 2"></a></div>
+            <div class="movie" id="movie5"><a href="https://www.imdb.com/title/tt1837492/" target="_blank"><img
+                        src="./img/2Os_Treze_Porques.jpg" alt="Os Treze Porquês"></a></div>
+            <div class="movie" id="movie6"><a href="https://www.imdb.com/title/tt7405458/" target="_blank"><img
+                        src="./img/2O_Pior_Vizinho_Do_Mundo.jpg" alt="O Pior Vizinho do Mundo"></a></div>
+            <div class="movie" id="movie7"><a href="https://www.imdb.com/title/tt0268978/" target="_blank"><img
+                        src="./img/2Uma_Mente_Brilhante.jpg" alt="Uma Mente Brilhante"></a></div>
+            <div class="movie" id="movie8"><a href="https://www.imdb.com/title/tt0396555/" target="_blank"><img
+                        src="./img/2A_Familia_Do_Futuro.jpg" alt="A Família do Futuro"></a></div>
+        </div>
+
+        <div class="arrow right-arrow" id="right-arrow">&#9654;</div> <!-- Seta Direita -->
+    </div>
+
+    <!-- Caixa amarela que fica escondida -->
+    <div id="info-box" class="info-box">
+        <p>A seção "Por outros olhares..." foi criada para trazer filmes e séries que abordam temas relacionados ao
+            Setembro Amarelo, como saúde mental, superação e a importância do apoio emocional.</p>
+        <br>
+        <p>Com ela podemos entender diferentes perspectivas sobre o sofrimento emocional, o impacto do preconceito e a
+            relevância da empatia.</p>
+        <br>
+        <p>Analisar essas obras nos permite refletir sobre a complexidade da mente humana e a importância de acolher e
+            cuidar de quem enfrenta momentos difíceis, ampliando nossa compreensão sobre a vida e o bem-estar mental.
+        </p>
+    </div>
+
+    <hr color=#ffdd00 />
+
+    <!-- Dicas de prevenção-->
+
+    <div class="text-subtitle-container">
+        <p>DICAS DE PREVENÇÃO:</p>
+    </div>
+
+    <div class="container-dica">
+        <div class="dica">
+            <h2>Fale sobre seus sentimentos</h2>
+            <p>Compartilhar seus sentimentos com alguém em quem confia é uma das melhores maneiras de aliviar o peso
+                emocional. Não tenha medo de pedir ajuda, mesmo que seja difícil no começo.</p>
+        </div>
+
+        <div class="dica">
+            <h2>Cuide da sua saúde mental</h2>
+            <p>Praticar atividades que ajudem a relaxar a mente, como meditação, leitura ou exercícios físicos, é
+                fundamental para o equilíbrio emocional e a prevenção do suicídio.</p>
+        </div>
+
+        <div class="dica">
+            <h2>Esteja atento aos sinais de quem precisa de ajuda</h2>
+            <p>Se alguém próximo a você estiver demonstrando sinais de tristeza profunda ou isolamento, ofereça apoio e
+                incentivo para que essa pessoa procure ajuda profissional. Um pequeno gesto pode fazer toda a diferença.
+            </p>
+        </div>
+    </div>
+
+    <div class="img-dica">
+        <img src="https://agenciagov.ebc.com.br/noticias/202409/setembro-amarelo-experiencias-exitosas-do-sus-contribuem-com-a-prevencao-ao-suicidio-e-a-reducao-do-estigma/@@images/7ad186d0-93f9-49f5-8d3a-655f6af1a96c.png"
+            alt="Um olhar empático pode fazer toda diferença">
+    </div>
+
+    <!-- Rodapé -->
+
+    <div class="footer-section">
+        <table>
+            <tr>
+                <th>
+                    <p class="space-table">
+                    <p class="p-tabela-rodape">NÃO É <span style='color:#ffdd00'>DRAMA</span>.</p>
+                    <p class="p-tabela-rodape">NÃO É <span style='color:#ffdd00'>CHAMAR ATENÇÃO</span>.</p>
+                    <p class="p-tabela-rodape">NEM É <span style='color:#ffdd00'>FALTA DE DEUS</span>.</p>
+                    <p class="p-tabela-rodape">E MUITO MENOS <span style='color:#ffdd00'>FRESCURA</span>.</p>
+                    <p class="p-tabela-rodape-especial">PROCURE AJUDA.</p>
+                    </p>
+                </th>
+                <th class="th-image">
+                    <img src="./img/logo-lacoamarelo.png" alt="Laço Amarelo do Setembro Amarelo" width="200px">
+                </th>
+            </tr>
+        </table>
+
+        <p class="name-tag-footer">Equipe 6 - Desenvolvimento de Sistemas - SENAI</p>
+    </div>
+
+    <script src="main.js"></script>
+</body>
+
+</html>
